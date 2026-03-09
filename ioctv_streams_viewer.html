@@ -406,6 +406,7 @@
       danmakuLayer.innerHTML = "";
     }
 
+    // 获取用户名，如果本地没有则生成一个
     function getOrCreateUserName() {
       try {
         const existing = localStorage.getItem(USERNAME_STORAGE_KEY);
