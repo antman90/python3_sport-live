@@ -1,0 +1,122 @@
+[
+  {
+    "id": "901",
+    "time": "LIVE TV",
+    "league": "SPORTS",
+    "emoji": "📺",
+    "name": "SPORTS CH",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live41/playlist.m3u8?hmac=1773030656~d82726982b4697f65ba867ed70c95ae358e3125c3bf71df8d14bb8dece8f2dad&site=ioctv&ch=live41"
+  },
+  {
+    "id": "902",
+    "time": "LIVE TV",
+    "league": "SPORTS",
+    "emoji": "📺",
+    "name": "SPORTS CH",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live42/playlist.m3u8?hmac=1773030656~c260f461cb98bd6cac1f7105a6584c2f1a54a524f56b8f831b18261f3aca9cda&site=ioctv&ch=live42"
+  },
+  {
+    "id": "903",
+    "time": "LIVE TV",
+    "league": "SPORTS",
+    "emoji": "📺",
+    "name": "SPORTS CH",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live43/playlist.m3u8?hmac=1773030655~d8750754dc8828cc2c23823e2a57b7a27e045caa5f8c870baf368bf0e0b690ee&site=ioctv&ch=live43"
+  },
+  {
+    "id": "904",
+    "time": "LIVE TV",
+    "league": "SPORTS",
+    "emoji": "📺",
+    "name": "SPORTS CH",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live44/playlist.m3u8?hmac=1773030656~88d6828222dd6fcee916755560ab210f9136d80c01f7e73161392cd811439e91&site=ioctv&ch=live44"
+  },
+  {
+    "id": "905",
+    "time": "LIVE TV",
+    "league": "SPORTS",
+    "emoji": "📺",
+    "name": "SPORTS CH",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live45/playlist.m3u8?hmac=1773030656~43cc8e17e1a8db250cda8fa3319c0bbd48fa59dadfca04691fa1d836b49047be&site=ioctv&ch=live45"
+  },
+  {
+    "id": "74",
+    "time": "03-09 08:05",
+    "league": "NBA",
+    "emoji": "🏀",
+    "name": "뉴올리언즈 vs 워싱턴",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live9/playlist.m3u8?hmac=1773030655~601f93245665057e4ff2b8f062f492141dc67007b4d7d6b45beffcbc0e5b51a5&site=ioctv&ch=live9"
+  },
+  {
+    "id": "150",
+    "time": "03-09 08:05",
+    "league": "NHL",
+    "emoji": "🏒",
+    "name": "뉴저지 vs 디트로이트",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live19/playlist.m3u8?hmac=1773030656~8ac76d44c84813ae5e9593933db0e5b18c15abd27993fa2a520e9f500ec7240f&site=ioctv&ch=live19"
+  },
+  {
+    "id": "160",
+    "time": "03-09 08:30",
+    "league": "BRA SP",
+    "emoji": "🏆",
+    "name": "그레미우 노보리존치누 vs SE 파우메이라스",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live20/playlist.m3u8?hmac=1773030656~ec71b9f123d8ba21cb9154ba24b0cf7f09abbe711ed75025353e86245721222b&site=ioctv&ch=live20"
+  },
+  {
+    "id": "198",
+    "time": "03-09 08:30",
+    "league": "CHI D1",
+    "emoji": "⚽",
+    "name": "CD 팔레스티노 vs CD 코브레살",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live27/playlist.m3u8?hmac=1773030656~19d77bb83738445ce44094aa9582bdbcfe583d1f7758872e091673ab031a1995&site=ioctv&ch=live27"
+  },
+  {
+    "id": "94",
+    "time": "03-09 08:30",
+    "league": "PAR D1",
+    "emoji": "⚽",
+    "name": "루비오 누 vs 2 데 마요",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live12/playlist.m3u8?hmac=1773030656~4b2983064589c6d227c32c9c5d6d0f79f51d8bf341dfdcb9dc32ba99023baa06&site=ioctv&ch=live12"
+  },
+  {
+    "id": "32",
+    "time": "03-09 09:00",
+    "league": "WBC",
+    "emoji": "⚾",
+    "name": "멕시코 vs 브라질",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live4/playlist.m3u8?hmac=1773030657~378ca709a9e93ac81e15b87b4bb67f51fda3d865f815b65e71b34740e31b0d4d&site=ioctv&ch=live4"
+  },
+  {
+    "id": "14",
+    "time": "03-09 09:05",
+    "league": "NBA",
+    "emoji": "🏀",
+    "name": "밀워키 vs 올랜도",
+    "site": "ioctv",
+    "is_live": true,
+    "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live2/playlist.m3u8?hmac=1773030657~db3ce3056536b4feb7703d723734ade2a583ff9d72e33749b3c96e247deeb0ed&site=ioctv&ch=live2"
+  }
+]

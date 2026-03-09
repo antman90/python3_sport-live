@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IOCTV 스트림 뷰어</title>
+  <style>
+    :root {
+      --bg: #141414;
+      --panel: #1b1b1b;
+      --header: #111111;
+      --line: #2c2c2c;
+      --text: #e7e7e7;
+      --muted: #9a9a9a;
+      --accent: #e43b32;
+      --ok: #ef3d33;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1a1a1a, var(--bg) 40%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .wrap {
+      width: min(1200px, 96vw);
+      margin: 24px auto 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    button {
+      border: 1px solid #3a3a3a;
+      background: #202020;
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover { border-color: #565656; }
+
+    .player-panel {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #2f2f2f;
+    }
+
+    #videoPlayer {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000;
+    }
+
+    .danmaku-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .danmaku-item {
+      position: absolute;
+      right: -10px;
+      white-space: nowrap;
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000, -1px -1px 2px #000;
+      transform: translateX(0);
+      transition: transform linear;
+      will-change: transform;
+      user-select: none;
+    }
+
+    .player-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .danmaku-input {
+      flex: 1;
+      min-width: 220px;
+      border: 1px solid #3a3a3a;
+      background: #151515;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+
+    .color-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #3a3a3a;
+      background: #151515;
+      border-radius: 8px;
+      padding: 6px 8px;
+      color: #cfcfcf;
+      font-size: 12px;
+      position: relative;
+    }
+
+    .color-trigger {
+      width: 34px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      background: #ffffff;
+      padding: 0;
+    }
+
+    .color-popup {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 8px);
+      min-width: 178px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #3a3a3a;
+      background: #171717;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      display: none;
+      z-index: 20;
+    }
+
+    .color-popup.open {
+      display: block;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 22px);
+      gap: 6px;
+    }
+
+    .color-item {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      padding: 0;
+      background: #fff;
+    }
+
+    .color-item.active {
+      outline: 2px solid #ffffff;
+      outline-offset: 1px;
+    }
+
+    .table {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--panel);
+    }
+
+    .thead, .row {
+      display: grid;
+      grid-template-columns: 70px 140px 100px 1.2fr 110px;
+      align-items: center;
+    }
+
+    .thead {
+      background: var(--header);
+      border-bottom: 1px solid var(--line);
+      font-weight: 700;
+      font-size: 14px;
+      color: #d2d2d2;
+    }
+
+    .thead > div, .row > div {
+      padding: 14px 10px;
+      border-right: 1px solid var(--line);
+      text-align: center;
+    }
+    .thead > div:last-child, .row > div:last-child { border-right: none; }
+
+    .tbody .row {
+      border-bottom: 1px solid var(--line);
+      min-height: 68px;
+    }
+    .tbody .row:last-child { border-bottom: none; }
+
+    .sport {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .league {
+      color: #d7d7d7;
+      font-weight: 600;
+    }
+
+    .match {
+      text-align: left !important;
+      font-weight: 600;
+      padding-left: 16px !important;
+    }
+
+    .status-badge {
+      display: inline-block;
+      background: var(--ok);
+      color: #fff;
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .status-off {
+      background: #555;
+    }
+
+    .empty, .error {
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .match-line {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .match-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .play-btn {
+      border: 1px solid #8a4f11;
+      background: #cc7d1b;
+      color: #fff;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .play-btn:hover {
+      background: #df8b21;
+    }
+
+    @media (max-width: 900px) {
+      .thead, .row {
+        grid-template-columns: 60px 120px 86px 1fr 96px;
+      }
+      .thead > div, .row > div { padding: 10px 8px; }
+      .match { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="title">IOCTV 스트림 목록</div>
+      <div class="controls">
+        <button id="reloadBtn">새로고침</button>
+      </div>
+    </div>
+    <div class="player-panel">
+      <div class="video-wrap">
+        <video id="videoPlayer" controls playsinline preload="none"></video>
+        <div id="danmakuLayer" class="danmaku-layer"></div>
+      </div>
+      <div class="player-actions">
+        <input id="danmakuInput" class="danmaku-input" type="text" placeholder="탄막 내용을 입력하고 Enter 키를 누르세요" />
+        <label class="color-wrap" for="danmakuColorInput">
+          색상
+          <button id="colorTrigger" class="color-trigger" type="button" aria-label="색상 선택"></button>
+          <div id="colorPopup" class="color-popup">
+            <div id="colorGrid" class="color-grid"></div>
+          </div>
+        </label>
+        <button id="sendDanmakuBtn" type="button">탄막 보내기</button>
+        <button id="toggleDanmakuBtn" type="button">탄막 끄기</button>
+        <button id="clearDanmakuBtn" type="button">탄막 지우기</button>
+      </div>
+    </div>
+
+    <div class="table">
+      <div class="thead">
+        <div>종목</div>
+        <div>날짜 / 시간</div>
+        <div>리그</div>
+        <div>경기 명</div>
+        <div>방송상태</div>
+      </div>
+      <div id="tbody" class="tbody"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
+  <script>
+    const tbody = document.getElementById("tbody");
+    const reloadBtn = document.getElementById("reloadBtn");
+    const player = document.getElementById("videoPlayer");
+    const danmakuLayer = document.getElementById("danmakuLayer");
+    const danmakuInput = document.getElementById("danmakuInput");
+    const colorTrigger = document.getElementById("colorTrigger");
+    const colorPopup = document.getElementById("colorPopup");
+    const colorGrid = document.getElementById("colorGrid");
+    const sendDanmakuBtn = document.getElementById("sendDanmakuBtn");
+    const toggleDanmakuBtn = document.getElementById("toggleDanmakuBtn");
+    const clearDanmakuBtn = document.getElementById("clearDanmakuBtn");
+    const API_BASE = (window.IOCTV_API_BASE || "http://localhost:8787").replace(/\/+$/, "");
+    const USERNAME_STORAGE_KEY = "ioctv_danmaku_user_name_v1";
+    const recommendedColors = [
+      "#ffffff", "#ffd966", "#ff6b6b", "#4dabf7", "#69db7c", "#b197fc",
+      "#ff922b", "#00d1b2", "#f783ac", "#ced4da", "#94d82d", "#74c0fc"
+    ];
+    let hls = null;
+    let currentRows = [];
+    let danmakuEnabled = true;
+    let selectedDanmakuColor = "#ffffff";
+    let currentVideoId = null;
+    let lastDanmakuId = 0;
+    let danmakuPollTimer = null;
+    let currentUserName = "";
+
+    function leagueToSport(league, emoji) {
+      if (emoji) return emoji;
+      const l = (league || "").toUpperCase();
+      if (["WBC", "MLB", "NPB", "KBO"].some(k => l.includes(k))) return "⚾";
+      if (["NBA", "KBL", "NBL"].some(k => l.includes(k))) return "🏀";
+      if (["NHL", "KHL"].some(k => l.includes(k))) return "🏒";
+      if (["KOVO", "V리그"].some(k => l.includes(k))) return "🏐";
+      return "⚽";
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function shootDanmaku(text, color = "#ffffff") {
+      if (!danmakuEnabled || !text) return;
+      const item = document.createElement("div");
+      item.className = "danmaku-item";
+      item.textContent = text;
+      item.style.color = color;
+      const laneHeight = 34;
+      const maxLane = Math.max(1, Math.floor((danmakuLayer.clientHeight - laneHeight) / laneHeight));
+      const lane = Math.floor(Math.random() * maxLane);
+      item.style.top = `${lane * laneHeight + 6}px`;
+      danmakuLayer.appendChild(item);
+
+      const totalDistance = danmakuLayer.clientWidth + item.clientWidth + 40;
+      const duration = Math.max(8, Math.min(18, totalDistance / 95));
+      item.style.transitionDuration = `${duration}s`;
+      requestAnimationFrame(() => {
+        item.style.transform = `translateX(-${totalDistance}px)`;
+      });
+      item.addEventListener("transitionend", () => item.remove(), { once: true });
+    }
+
+    function clearDanmaku() {
+      danmakuLayer.innerHTML = "";
+    }
+
+    function getOrCreateUserName() {
+      try {
+        const existing = localStorage.getItem(USERNAME_STORAGE_KEY);
+        if (existing && existing.trim()) return existing.trim();
+      } catch (_) {}
+
+      const rand = Math.random().toString(36).slice(2, 8).toUpperCase();
+      const generated = `guest_${rand}`;
+      try {
+        localStorage.setItem(USERNAME_STORAGE_KEY, generated);
+      } catch (_) {}
+      return generated;
+    }
+
+    function stopDanmakuPolling() {
+      if (danmakuPollTimer) {
+        clearInterval(danmakuPollTimer);
+        danmakuPollTimer = null;
+      }
+    }
+
+    async function fetchDanmaku(videoId, afterId = 0, limit = 50) {
+      const qs = new URLSearchParams({
+        video_id: String(videoId),
+        after_id: String(afterId),
+        limit: String(limit)
+      });
+      const resp = await fetch(`${API_BASE}/api/danmaku?${qs.toString()}`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      return Array.isArray(data.items) ? data.items : [];
+    }
+
+    async function loadDanmakuHistory(videoId) {
+      if (!videoId) return;
+      try {
+        const items = await fetchDanmaku(videoId, 0, 80);
+        clearDanmaku();
+        if (!danmakuEnabled) return;
+        const recent = items.slice(-20);
+        recent.forEach((item, idx) => {
+          setTimeout(() => shootDanmaku(item.message, item.color || "#ffffff"), idx * 220);
+        });
+        lastDanmakuId = items.length ? items[items.length - 1].id : 0;
+      } catch (err) {
+        console.warn("danmaku read failed:", err.message);
+      }
+    }
+
+    async function pollDanmaku() {
+      if (!currentVideoId || !danmakuEnabled) return;
+      try {
+        const items = await fetchDanmaku(currentVideoId, lastDanmakuId, 50);
+        if (!items.length) return;
+        items.forEach((item) => shootDanmaku(item.message, item.color || "#ffffff"));
+        lastDanmakuId = items[items.length - 1].id;
+      } catch (_) {
+        // polling error: keep silent to avoid noisy UI
+      }
+    }
+
+    function applyDanmakuState() {
+      if (danmakuEnabled) {
+        danmakuLayer.style.display = "block";
+        danmakuInput.disabled = false;
+        sendDanmakuBtn.disabled = false;
+        toggleDanmakuBtn.textContent = "탄막 끄기";
+      } else {
+        // 끌 때 즉시 화면 탄막을 지워 사용자 체감 동작을 명확히 한다.
+        clearDanmaku();
+        danmakuLayer.style.display = "none";
+        danmakuInput.disabled = true;
+        sendDanmakuBtn.disabled = true;
+        toggleDanmakuBtn.textContent = "탄막 켜기";
+      }
+    }
+
+    function playInPage(url, titleText, videoId) {
+      if (!url) return;
+      if (hls) {
+        hls.destroy();
+        hls = null;
+      }
+
+      if (player.canPlayType("application/vnd.apple.mpegurl")) {
+        player.src = url;
+      } else if (window.Hls && window.Hls.isSupported()) {
+        hls = new window.Hls();
+        hls.loadSource(url);
+        hls.attachMedia(player);
+      } else {
+        console.warn("현재 브라우저는 HLS 재생을 지원하지 않습니다.");
+        return;
+      }
+      player.play().catch(() => {});
+      currentVideoId = String(videoId || titleText || "unknown");
+      lastDanmakuId = 0;
+      loadDanmakuHistory(currentVideoId);
+      stopDanmakuPolling();
+      danmakuPollTimer = setInterval(pollDanmaku, 4000);
+    }
+
+    async function sendDanmaku() {
+      const text = danmakuInput.value.trim();
+      if (!text) return;
+      if (!currentVideoId) {
+        alert("먼저 영상을 재생하세요.");
+        return;
+      }
+      try {
+        const resp = await fetch(`${API_BASE}/api/danmaku`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            video_id: currentVideoId,
+            message: text,
+            color: selectedDanmakuColor,
+            user_name: currentUserName
+          })
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const saved = await resp.json();
+        shootDanmaku(saved.message || text, saved.color || selectedDanmakuColor);
+        if (saved.id && saved.id > lastDanmakuId) {
+          lastDanmakuId = saved.id;
+        }
+        danmakuInput.value = "";
+      } catch (err) {
+        alert(`탄막 저장 실패: ${err.message}`);
+      }
+    }
+
+    function renderRecommendedColors() {
+      colorGrid.innerHTML = recommendedColors.map((color) => `
+        <button
+          type="button"
+          class="color-item ${color === selectedDanmakuColor ? "active" : ""}"
+          data-color="${color}"
+          style="background:${color}"
+          title="${color}"
+          aria-label="color-${color}"
+        ></button>
+      `).join("");
+    }
+
+    function renderRows(rows) {
+      currentRows = Array.isArray(rows) ? rows : [];
+      if (!Array.isArray(rows) || rows.length === 0) {
+        tbody.innerHTML = '<div class="empty">표시할 데이터가 없습니다.</div>';
+        return;
+      }
+
+      tbody.innerHTML = rows.map((item, idx) => {
+        const sport = leagueToSport(item.league, item.emoji);
+        const statusText = item.is_live ? "방송중" : "종료";
+        const statusClass = item.is_live ? "" : " status-off";
+        const safeTime = escapeHtml(item.time || "-");
+        const safeLeague = escapeHtml(item.league || "-");
+        const safeName = escapeHtml(item.name || "-");
+        const url = item.url || "";
+        return `
+          <div class="row">
+            <div class="sport">${sport}</div>
+            <div>${safeTime}</div>
+            <div class="league">${safeLeague}</div>
+            <div class="match">
+              <div class="match-line">
+                <span class="match-name">${safeName}</span>
+                ${url ? `<button type="button" class="play-btn" data-idx="${idx}">페이지 내 재생</button>` : ""}
+              </div>
+            </div>
+            <div><span class="status-badge${statusClass}">${statusText}</span></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function loadData() {
+      try {
+        const resp = await fetch(`./ioctv_streams.json?t=${Date.now()}`);
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        renderRows(data);
+      } catch (err) {
+        tbody.innerHTML = `
+          <div class="error">
+            ioctv_streams.json 불러오기 실패: ${err.message}<br />
+            현재 디렉터리에서 로컬 서버를 실행한 뒤 접속하세요 (예: <code>python3 -m http.server 8000</code>).
+          </div>
+        `;
+      }
+    }
+
+    tbody.addEventListener("click", (event) => {
+      const btn = event.target.closest(".play-btn");
+      if (!btn) return;
+      const idx = Number(btn.dataset.idx);
+      const item = currentRows[idx];
+      if (!item || !item.url) return;
+      playInPage(
+        item.url,
+        `${item.emoji || ""}${item.league || ""} ${item.name || ""}`.trim(),
+        item.id || `${item.league || ""}:${item.name || ""}`
+      );
+    });
+
+    colorTrigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      colorPopup.classList.toggle("open");
+    });
+
+    colorGrid.addEventListener("click", (event) => {
+      const btn = event.target.closest(".color-item");
+      if (!btn) return;
+      selectedDanmakuColor = btn.dataset.color || "#ffffff";
+      colorTrigger.style.background = selectedDanmakuColor;
+      renderRecommendedColors();
+      colorPopup.classList.remove("open");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!event.target.closest(".color-wrap")) {
+        colorPopup.classList.remove("open");
+      }
+    });
+
+    sendDanmakuBtn.addEventListener("click", sendDanmaku);
+    danmakuInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendDanmaku();
+    });
+    toggleDanmakuBtn.addEventListener("click", () => {
+      danmakuEnabled = !danmakuEnabled;
+      applyDanmakuState();
+    });
+    clearDanmakuBtn.addEventListener("click", clearDanmaku);
+
+    colorTrigger.style.background = selectedDanmakuColor;
+    currentUserName = getOrCreateUserName();
+    applyDanmakuState();
+    renderRecommendedColors();
+    reloadBtn.addEventListener("click", loadData);
+    loadData();
+  </script>
+</body>
+</html>

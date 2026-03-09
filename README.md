@@ -1,0 +1,62 @@
+# 反分析绕过、协议与加密还原、CTF 自动解题、Web 逆向与接口追踪
+调用skill reverse-multi-track，处理https://ioctv24.com, 爬取网站到当前文件夹
+
+# 基本用法 - 列出所有正在直播的频道和 m3u8 地址
+python3 ioctv_grabber.py
+
+# 按关键字过滤
+python3 ioctv_grabber.py --filter NBA
+python3 ioctv_grabber.py --filter WBC
+
+# 直接播放第 N 个（自动找 IINA/mpv/VLC）
+python3 ioctv_grabber.py --play 9
+
+# 生成 M3U 播放列表文件（VLC/IINA 直接打开）
+python3 ioctv_grabber.py --m3u
+
+# JSON 输出（方便其他程序调用）
+python3 ioctv_grabber.py --json
+
+# 显示所有频道（含未开播的）
+python3 ioctv_grabber.py --all
+
+## Danmaku PostgreSQL API
+
+Install:
+```bash
+pip3 install -r requirements.txt
+```
+
+<!-- DB_HOST_pgFulive=192.168.3.36
+DB_PORT_pgFulive=5432
+DB_DATABASE_pgFulive=db_fulive
+DB_USERNAME_pgFulive=role_fulive
+DB_PASSWORD_pgFulive=kingsai003 -->
+Run API:
+```bash
+# export DATABASE_URL='postgresql://user:password@host:5432/dbname'
+export DATABASE_URL='postgresql://role_fulive:kingsai003@192.168.3.36:5432/db_fulive'
+python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 --reload
+```
+
+Schema file:
+`db/danmaku_schema.sql`
+
+Endpoints:
+- `POST /api/danmaku`
+  - body: `{"video_id":"74","message":"hello","color":"#ffffff","user_name":"guest"}`
+- `GET /api/danmaku?video_id=74&after_id=0&limit=50`
+
+Frontend:
+- `ioctv_streams_viewer.html` defaults to `http://localhost:8787`
+- You can override by setting: `window.IOCTV_API_BASE`
+
+#### 页面
+```
+python3 -m http.server 8000
+```
+
+#### 接口
+```
+python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 --reload
+```

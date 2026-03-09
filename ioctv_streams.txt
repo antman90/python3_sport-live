@@ -1,0 +1,16 @@
+[LIVE TV] 📺SPORTS SPORTS CH | https://wdbroadcast.com:8443/sportsbox/_definst_/live41/playlist.m3u8?hmac=1773029223~aea45f8b21eccc1671fc8361136a491dd78995326b171a9451cbbe05d234ce1c&site=ioctv&ch=live41
+[LIVE TV] 📺SPORTS SPORTS CH | https://wdbroadcast.com:8443/sportsbox/_definst_/live42/playlist.m3u8?hmac=1773029223~7b77b4b177b2b7e179b11845588c5be6f4d593dc89b54092d22ed9bde573d18f&site=ioctv&ch=live42
+[LIVE TV] 📺SPORTS SPORTS CH | https://wdbroadcast.com:8443/sportsbox/_definst_/live43/playlist.m3u8?hmac=1773029223~b6391c8026058592dc2f3e756746ec41db6717f7ef8295799175779642bc31eb&site=ioctv&ch=live43
+[LIVE TV] 📺SPORTS SPORTS CH | https://wdbroadcast.com:8443/sportsbox/_definst_/live44/playlist.m3u8?hmac=1773029223~e772e2aa06dd7210017dfa0632f69553a3859f31895deb033f75bb6254ee01b3&site=ioctv&ch=live44
+[LIVE TV] 📺SPORTS SPORTS CH | https://wdbroadcast.com:8443/sportsbox/_definst_/live45/playlist.m3u8?hmac=1773029222~cedcfe0888d9456842a0d94724340742eb89cd0084eed17b6e0ed4cbb1e87723&site=ioctv&ch=live45
+[03-09 07:05] 🏒NHL 버팔로 vs 탬파베이 | https://wdbroadcast.com:8443/sportsbox/_definst_/live28/playlist.m3u8?hmac=1773029223~85e472ed90bed6682350429a6c61a570a1ebd82c6676f433e2d412f1413f1f37&site=ioctv&ch=live28
+[03-09 08:00] ⚾WBC 캐나다 vs 파나마 | https://wdbroadcast.com:8443/sportsbox/_definst_/live41/playlist.m3u8?hmac=1773029222~9d58ce14c42c765ee8e54f0021253cc4228f308c2827e6761b3d5e38020830e2&site=ioctv&ch=live41
+[03-09 08:00] ⚽MEX D1 데포르티보 톨루카 vs FC 후아레스 | https://wdbroadcast.com:8443/sportsbox/_definst_/live17/playlist.m3u8?hmac=1773029222~fafb3aaf8d896262922cc0381d263804e92b13de74c35991f88a22e0b3495a1f&site=ioctv&ch=live17
+[03-09 08:00] ⚽URU D1 데펜소르 스포르팅 vs 센트랄 에스파뇰 | https://wdbroadcast.com:8443/sportsbox/_definst_/live29/playlist.m3u8?hmac=1773029223~0ad49ec83ddc1084a6a0d403d70ded60b3d95a5d8e1f649a8e31bfcf4364461b&site=ioctv&ch=live29
+[03-09 08:05] 🏀NBA 뉴올리언즈 vs 워싱턴 | https://wdbroadcast.com:8443/sportsbox/_definst_/live9/playlist.m3u8?hmac=1773029223~004c19a36ec7a09c37cf30ad6f61415e1adacead34d9030ed14bf6bfc01151cf&site=ioctv&ch=live9
+[03-09 08:05] 🏆USA MLS FC 신시내티 vs 토론토 FC | https://wdbroadcast.com:8443/sportsbox/_definst_/live14/playlist.m3u8?hmac=1773029223~5e27efe915c618d7ac039f4e279399cc865f7ae2b14b8623b10d28754e5d893f&site=ioctv&ch=live14
+[03-09 08:05] 🏒NHL 뉴저지 vs 디트로이트 | https://wdbroadcast.com:8443/sportsbox/_definst_/live19/playlist.m3u8?hmac=1773029223~bbbc9ee4a67c868d7a1d6a887dae7d1d45b4a8d85204e57eb3408b70fb20d22e&site=ioctv&ch=live19
+[03-09 08:15] ⚽HON D1 CD 올림피아 vs 레알 에스파냐 | https://wdbroadcast.com:8443/sportsbox/_definst_/live24/playlist.m3u8?hmac=1773029223~1942cb7a41bbc5695e3e96cf53e18f9e5d0871ef3faef961eca2abecc5c60837&site=ioctv&ch=live24
+[03-09 08:30] 🏆BRA SP 그레미우 노보리존치누 vs SE 파우메이라스 | https://wdbroadcast.com:8443/sportsbox/_definst_/live20/playlist.m3u8?hmac=1773029223~a675a31e00af04aa9ec563466d87f772fbcb95d62e4473675b306eccb6529ce1&site=ioctv&ch=live20
+[03-09 08:30] ⚽CHI D1 CD 팔레스티노 vs CD 코브레살 | https://wdbroadcast.com:8443/sportsbox/_definst_/live27/playlist.m3u8?hmac=1773029223~661829329bfefe3849c97dfb99a94767edd2f0fe6e0959212708cfc9b2474a65&site=ioctv&ch=live27
+[03-09 08:30] ⚽PAR D1 루비오 누 vs 2 데 마요 | https://wdbroadcast.com:8443/sportsbox/_definst_/live12/playlist.m3u8?hmac=1773029223~a3a425cc20de44d42520aff831471354c4a28833bfbfcc27034b8a6a8f310619&site=ioctv&ch=live12
