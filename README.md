@@ -20,6 +20,20 @@ python3 ioctv_grabber.py --json
 # 显示所有频道（含未开播的）
 python3 ioctv_grabber.py --all
 
+## 定时抓取（每分钟）
+
+已提供脚本：
+`fetch_live_streams.sh`
+
+功能：
+- 每次抓取直播频道和 m3u8 地址
+- 输出到 `ioctv_streams.json`
+- 防重入锁（上一次未完成时跳过）
+- 日志写入 `ioctv_fetch.log`
+
+已安装 cron：
+`* * * * * /Users/kingkim/my_data/my_skill/fetch_live_streams.sh # ioctv-live-fetch`
+
 ## Danmaku PostgreSQL API
 
 Install:
