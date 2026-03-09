@@ -77,6 +77,11 @@ python3 -m http.server 8000   # 前台调试
 python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 --reload   # 前台调试
 ```
 
+#### 定时任务(一分钟执行一次)
+```
+* * * * * /Users/kingkim/my_data/my_skill/fetch_live_streams.sh # ioctv-live-fetch
+```
+
 #### 后台守护（异常自动重启）
 ```
 # 启动守护进程（http.server + uvicorn）
