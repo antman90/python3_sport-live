@@ -48,8 +48,10 @@ DB_USERNAME_pgFulive=role_fulive
 DB_PASSWORD_pgFulive=kingsai003 -->
 Run API:
 ```bash
-# export DATABASE_URL='postgresql://user:password@host:5432/dbname'
-export DATABASE_URL='postgresql://role_fulive:kingsai003@192.168.3.36:5432/db_fulive'
+# 1) 在当前目录创建配置文件 danmaku_api.env
+# DATABASE_URL=postgresql://user:password@host:5432/dbname
+#
+# 2) 前台运行（调试）
 python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 --reload
 ```
 
@@ -67,10 +69,26 @@ Frontend:
 
 #### 页面
 ```
-python3 -m http.server 8000
+python3 -m http.server 8000   # 前台调试
 ```
 
 #### 接口
 ```
-python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 --reload
+python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 --reload   # 前台调试
+```
+
+#### 后台守护（异常自动重启）
+```
+# 启动守护进程（http.server + uvicorn）
+./manage_services.sh start
+
+# 查看状态
+./manage_services.sh status
+
+# 停止
+./manage_services.sh stop
+
+# 每分钟健康检查（异常自动拉起/重启）
+# 已安装:
+# * * * * * /Users/kingkim/my_data/my_skill/service_watchdog.sh # ioctv-service-watchdog
 ```

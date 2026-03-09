@@ -122,10 +122,15 @@ def normalize_color(color: str) -> str:
 def on_startup() -> None:
     if not AUTO_INIT_SCHEMA:
         return
-    with db_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(SCHEMA_SQL)
-        conn.commit()
+    try:
+        with db_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute(SCHEMA_SQL)
+            conn.commit()
+    except Exception as e:
+        # Keep API process alive even if DB is temporarily unavailable.
+        # Requests touching DB will return explicit errors until DB recovers.
+        print(f"[startup] warning: schema init skipped: {e}")
 
 
 @app.get("/api/health")

@@ -1,2 +1,5 @@
 *.env
 ioctv_fetch.log
+ioctv_streams.json
+logs/
+.run/
