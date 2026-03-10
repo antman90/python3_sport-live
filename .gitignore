@@ -3,3 +3,4 @@ ioctv_fetch.log
 ioctv_streams.json
 logs/
 .run/
+ioctv_category_emoji_cache.json
