@@ -1,8 +1,0 @@
-start_url: https://ioctv24.com/
-pages_saved: 500
-assets_saved: 126
-visited_total: 629
-errors: 3
-- https://ioctv24.com//img/num_7.gif :: <urlopen error _ssl.c:1112: The handshake operation timed out>
-- https://ioctv24.com/cdn-cgi/l/email-protection :: HTTP Error 404: Not Found
-- https://ioctv24.com//bbs/board.php?bo_table=bunsuk01&wr_id=27626&page=2 :: <urlopen error EOF occurred in violation of protocol (_ssl.c:1129)>
