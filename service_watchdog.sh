@@ -16,11 +16,11 @@ ensure_supervisors_running() {
 }
 
 check_http() {
-  curl -fsS --max-time 4 "http://127.0.0.1:8000/ioctv_streams_viewer.html" >/dev/null
+  curl -fsS --max-time 4 "http://127.0.0.1:8000/" >/dev/null
 }
 
 check_api() {
-  curl -fsS --max-time 4 "http://127.0.0.1:8787/api/health" >/dev/null
+  curl -fsS --max-time 4 "http://127.0.0.1:8000/api/health" >/dev/null
 }
 
 echo "[$(timestamp)] watchdog tick" >> "$LOGFILE"

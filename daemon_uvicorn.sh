@@ -10,7 +10,7 @@ cd "$WORKDIR"
 
 while true; do
   echo "[$(date '+%F %T')] starting uvicorn" >> "$LOGFILE"
-  python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8787 >> "$LOGFILE" 2>&1
+  python3 -m uvicorn danmaku_api:app --host 0.0.0.0 --port 8000 >> "$LOGFILE" 2>&1
   code=$?
   echo "[$(date '+%F %T')] uvicorn exited code=$code, restart in 3s" >> "$LOGFILE"
   sleep 3

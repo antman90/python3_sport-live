@@ -347,7 +347,7 @@
     const sendDanmakuBtn = document.getElementById("sendDanmakuBtn");
     const toggleDanmakuBtn = document.getElementById("toggleDanmakuBtn");
     const clearDanmakuBtn = document.getElementById("clearDanmakuBtn");
-    const API_BASE = (window.IOCTV_API_BASE || "http://localhost:8787").replace(/\/+$/, "");
+    const API_BASE = (window.IOCTV_API_BASE || window.location.origin).replace(/\/+$/, "");
     const USERNAME_STORAGE_KEY = "ioctv_danmaku_user_name_v1";
     const recommendedColors = [
       "#ffffff", "#ffd966", "#ff6b6b", "#4dabf7", "#69db7c", "#b197fc",

@@ -75,11 +75,12 @@ status_one() {
 case "${1:-}" in
   start)
     start_one "uvicorn-supervisor" "./daemon_uvicorn.sh" "$UV_PID_FILE"
-    start_one "http-supervisor" "./daemon_http.sh" "$HTTP_PID_FILE"
+    # unified single-port mode: static + API are both served by uvicorn on :8000
+    stop_one "http-supervisor" "$HTTP_PID_FILE" >/dev/null 2>&1 || true
     ;;
   stop)
     stop_one "uvicorn-supervisor" "$UV_PID_FILE"
-    stop_one "http-supervisor" "$HTTP_PID_FILE"
+    stop_one "http-supervisor" "$HTTP_PID_FILE" >/dev/null 2>&1 || true
     ;;
   restart)
     "$0" stop

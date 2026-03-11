@@ -19,6 +19,8 @@ from typing import Generator, Optional
 import psycopg
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 
@@ -95,6 +97,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Serve frontend static files from project root.
+app.mount("/static", StaticFiles(directory=str(BASE_DIR)), name="static")
+
 
 def ensure_database_url() -> None:
     if not DATABASE_URL:
@@ -136,6 +141,11 @@ def on_startup() -> None:
 @app.get("/api/health")
 def health() -> dict:
     return {"ok": True}
+
+
+@app.get("/")
+def root() -> RedirectResponse:
+    return RedirectResponse(url="/static/index.html")
 
 
 @app.post("/api/danmaku", response_model=DanmakuOut)
