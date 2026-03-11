@@ -607,7 +607,7 @@
       const item = currentRows[idx];
       if (!item || !item.url) return;
       playInPage(
-        item.url,
+        API_BASE + item.url,
         `${item.emoji || ""}${item.league || ""} ${item.name || ""}`.trim(),
         item.id || `${item.league || ""}:${item.name || ""}`
       );

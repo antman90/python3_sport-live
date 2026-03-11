@@ -35,6 +35,7 @@ HOME_URL = "https://ioctv24.com/"
 BROADCAST_LIST_URL = "https://wdbroad.com/broadcast/ioctv"
 VIDEO_KEY_URL = "https://wdbroad.com/player/getVideoKey.php"
 BROADCAST_DETAIL_URL = "https://wdbroad.com/broadcast/{id}/ioctv"
+JSON_URL_DOMAIN_TO_STRIP = "https://wdbroadcast.com:8443"
 EMOJI_CACHE_FILE = "ioctv_category_emoji_cache.json"
 EMOJI_CACHE_TTL_SECONDS = 6 * 60 * 60
 
@@ -357,6 +358,9 @@ def save_stream_urls(broadcasts: List[Dict], filepath: str,
         url = b["full_url"]
         if url not in seen:
             seen.add(url)
+            json_url = url
+            if json_url.startswith(JSON_URL_DOMAIN_TO_STRIP):
+                json_url = json_url[len(JSON_URL_DOMAIN_TO_STRIP):]
             records.append({
                 "id": b["id"],
                 "time": b["time"],
@@ -365,7 +369,7 @@ def save_stream_urls(broadcasts: List[Dict], filepath: str,
                 "name": b["name"],
                 "site": b["site"],
                 "is_live": b["is_live"],
-                "url": url,
+                "url": json_url,
             })
 
     with open(filepath, "w", encoding="utf-8") as f:
@@ -413,7 +417,8 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例:
-  python3 ioctv_grabber.py                  # 列出所有直播
+  python3 ioctv_grabber.py                  # 列出所有有直播源的直播
+  python3 ioctv_grabber.py --all            # 列出所有直播
   python3 ioctv_grabber.py --filter NBA     # 只看 NBA
   python3 ioctv_grabber.py --filter 다저스  # 搜索道奇队
   python3 ioctv_grabber.py --play 1         # 播放第1个
