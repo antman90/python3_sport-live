@@ -152,3 +152,47 @@ server {
     return 301 https://$host$request_uri;
 }
 ```
+  "url": "https://wdbroadcast.com:8443/sportsbox/_definst_/live41/playlist.m3u8?hmac=1773209823~ac72cb301a613e81690a9c2c2b0fe45dc0e3e53cff3d472604835e77151a38bc&site=ioctv&ch=live41"
+```
+
+
+
+server {
+    listen 8443 ssl;
+    server_name wdbroadcast.com;
+
+    # =============================
+    # SSL 配置
+    # =============================
+    ssl_certificate     /etc/nginx/ssl/wdbroadcast.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/wdbroadcast.com.key;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+
+    # =============================
+    # HLS 直播流反向代理
+    # 自动代理 /sportsbox/_definst_/liveXX/
+    # =============================
+    location /sportsbox/_definst_/ {
+        proxy_pass https://wdbroadcast.com:8443$request_uri;
+
+        # 保持客户端信息
+        proxy_set_header Host https://wdbroadcast.com:8443;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # HLS 流设置
+        proxy_buffering off;         # 关闭缓冲，保证低延迟
+        proxy_connect_timeout 10s;   # 连接超时
+        proxy_send_timeout 60s;      # 发送超时
+        proxy_read_timeout 60s;      # 接收超时
+
+        # 允许大文件传输（ts 切片）
+        client_max_body_size 100M;
+    }
+
+    # 可选：访问日志
+    access_log /var/log/nginx/hls_access.log;
+    error_log  /var/log/nginx/hls_error.log;
+}
