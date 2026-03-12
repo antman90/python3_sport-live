@@ -196,3 +196,4 @@ server {
     access_log /var/log/nginx/hls_access.log;
     error_log  /var/log/nginx/hls_error.log;
 }
+
